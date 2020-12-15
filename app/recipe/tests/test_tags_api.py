@@ -19,9 +19,6 @@ class PublicTagsApiTests(TestCase):
     def setUp(self):
         self.client = APIClient()
 
-
-
-
     def test_login_required(self):
         """Test that login required for retrieving tags"""
         res = self.client.get(TAGS_URL)
@@ -34,9 +31,9 @@ class PrivateTagsApiTests(TestCase):
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(
-                'test@londonappdev.com',
-                'password'
-            )
+            'test@londonappdev.com',
+            'password'
+        )
         self.client = APIClient()
         self.client.force_authenticate(self.user)
 
@@ -66,7 +63,6 @@ class PrivateTagsApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(len(res.data), 1)
         self.assertEqual(res.data[0]['name'], tag.name)
-
 
     def test_create_tag_successful(self):
         """Test creating a new tag"""
