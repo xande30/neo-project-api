@@ -31,7 +31,7 @@ class PrivateTagsApiTests(TestCase):
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(
-            'test@londonappdev.com',
+            'test@neo.com',
             'password'
         )
         self.client = APIClient()
@@ -52,7 +52,7 @@ class PrivateTagsApiTests(TestCase):
     def test_tags_limited_to_user(self):
         """Test that tags returned are for authenticated user"""
         user2 = get_user_model().objects.create_user(
-            'other@londonappdev.com',
+            'other@neo.com',
             'testpass'
         )
         Tag.objects.create(user=user2, name='Fruity')
@@ -61,5 +61,5 @@ class PrivateTagsApiTests(TestCase):
         res = self.client.get(TAGS_URL)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(1, len(res.data)
+        self.assertEqual(len(res.data), 1)
         self.assertEqual(res.data[0]['name'], tag.name)
